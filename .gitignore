@@ -1,0 +1,5 @@
+// Ignore these files in git operations
+*.idea
+*.iml
+/out
+/target
