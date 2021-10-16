@@ -6,13 +6,14 @@ import java.util.ArrayList;
 
 public class Game {
 
-    private ArrayList<State> stateList;
+    private State initialState;
     private ArrayList<Player> players;
     private Player currentPlayer;
+    private int numPlayers;
 
     public Game(State initialState, int numPlayers){
-        this.stateList = new ArrayList<>();
-        stateList.add(initialState);
+        this.numPlayers = numPlayers;
+        this.initialState = initialState;
         this.players = new ArrayList<>();
         for(int i = 0; i < numPlayers; i++)
             players.add(new Player(i + 1));
