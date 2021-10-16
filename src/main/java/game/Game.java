@@ -1,6 +1,7 @@
 package game;
 
 import map.State;
+import map.Tile;
 
 import java.util.ArrayList;
 
@@ -21,8 +22,11 @@ public class Game {
         initialState.player = currentPlayer;
     }
 
+    // Game factory
     public static Game newGame(State initialState, int numPlayers){
-        return new Game(initialState, numPlayers);
+        if (initialState.getTiles() != null && numPlayers > 0)
+            return new Game(initialState, numPlayers);
+        return null;
     }
 
     private int getNextPlayer(){
