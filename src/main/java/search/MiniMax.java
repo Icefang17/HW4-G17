@@ -4,48 +4,56 @@ import map.State;
 import resource.UtilityValue;
 
 import java.lang.Math;
+import game.Game;
+import map.State;
+import resource.UtilityValue;
 
 public class MiniMax {
-    public Action minimaxDecision(State state) {
+    public static Action minimaxDecision(Game game, State state) {
+        int value = 0, hold;
         Action finalAction;
 
         // This loop is not done. Computes the element 'action' of set actions(state) that has the maximum value of minValue(result(state, action)).
-        for(Action action : actions(state)) {
-            // Probably use a comparator for this. ***
-            if(minValue(Game.result(state, action)))
-                break;
+        // Grab the action from the available actions that has the greatest
+        for(Action action : Game.actions(state)) {
+            hold = value;
+            value = max(value, minValue(state.result(game, action)));
 
-            else
+            if(value != hold)
                 finalAction = action;
         }
 
         return finalAction;
     }
 
-    public int minValue(State state) {
-        if(terminalTest(state))
-            return UtilityValue.utility(state);
+    public static int minValue(Game game, State state) {
+        if(Game.terminalTest(state))
+            return UtilityValue.utility(state, game.getPlayers());
 
         int utilityValue = Integer.MAX_VALUE;
 
-        for(Action action : actions(state))
-            utilityValue = Math.min(utilityValue, maxValue(result(state, action)));
+        for(Action action : Game.actions(state))
+            utilityValue = Math.min(utilityValue, maxValue(state.result(game, action)));
 
-        // actions(state).forEach(
-        //     (action) -> utilityValue = Math.min(utilityValue, maxValue(result(state, action)))
-        // );
+        Game.actions(state).forEach(
+            (action) -> utilityValue = Math.min(utilityValue, maxValue(state.result(game, action)))
+        );
 
         return utilityValue;
     }
 
-    public int maxValue(State state) {
-        if(terminalTest(state))
-            return utility(state);
+    public static int maxValue(Game game, State state) {
+        if(Game.terminalTest(state))
+            return UtilityValue.utility(state, game.getPlayers());
 
         int utilityValue = Integer.MIN_VALUE;
 
-        for(Action action : actions(state))
-            utilityValue = Math.max(utilityValue, minValue(result(state, action)));
+        for(Action action : Game.actions(state))
+            utilityValue = Math.max(utilityValue, minValue(state.result(game, action)));
+
+        // actions(state).forEach(
+        //     (action) -> utilityValue = Math.max(utilityValue, minValue(state.result(game, action)))
+        // );
 
         return utilityValue;
     }
