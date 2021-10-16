@@ -17,7 +17,7 @@ public class MiniMax {
         // Grab the action from the available actions that has the greatest
         for(Action action : Game.actions(state)) {
             hold = value;
-            value = max(value, minValue(result(game, state, action)));
+            value = max(value, minValue(state.result(game, action)));
 
             if(value != hold)
                 finalAction = action;
@@ -33,11 +33,11 @@ public class MiniMax {
         int utilityValue = Integer.MAX_VALUE;
 
         for(Action action : Game.actions(state))
-            utilityValue = Math.min(utilityValue, maxValue(result(state, action)));
+            utilityValue = Math.min(utilityValue, maxValue(state.result(game, action)));
 
-        // actions(state).forEach(
-        //     (action) -> utilityValue = Math.min(utilityValue, maxValue(result(state, action)))
-        // );
+        Game.actions(state).forEach(
+            (action) -> utilityValue = Math.min(utilityValue, maxValue(state.result(game, action)))
+        );
 
         return utilityValue;
     }
@@ -49,10 +49,10 @@ public class MiniMax {
         int utilityValue = Integer.MIN_VALUE;
 
         for(Action action : Game.actions(state))
-            utilityValue = Math.max(utilityValue, minValue(result(state, action)));
+            utilityValue = Math.max(utilityValue, minValue(state.result(game, action)));
 
         // actions(state).forEach(
-        //     (action) -> utilityValue = Math.max(utilityValue, minValue(result(state, action)))
+        //     (action) -> utilityValue = Math.max(utilityValue, minValue(state.result(game, action)))
         // );
 
         return utilityValue;
