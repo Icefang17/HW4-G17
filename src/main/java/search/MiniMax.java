@@ -1,5 +1,7 @@
 package search;
 
+import java.lang.Math;
+
 public class MiniMax {
     public Action minimaxDecision(State state) {
         Action finalAction;
@@ -24,10 +26,10 @@ public class MiniMax {
         int utilityValue = Integer.MAX_VALUE;
 
         for(Action action : actions(state))
-            utilityValue = min(utilityValue, maxValue(result(state, action)));
+            utilityValue = Math.min(utilityValue, maxValue(result(state, action)));
 
         // actions(state).forEach(
-        //     (action) -> utilityValue = min(utilityValue, maxValue(result(state, action)))
+        //     (action) -> utilityValue = Math.min(utilityValue, maxValue(result(state, action)))
         // );
 
         return utilityValue;
@@ -40,7 +42,7 @@ public class MiniMax {
         int utilityValue = Integer.MIN_VALUE;
 
         for(Action action : actions(state))
-            utilityValue = max(utilityValue, minValue(result(state, action)));
+            utilityValue = Math.max(utilityValue, minValue(result(state, action)));
 
         return utilityValue;
     }
