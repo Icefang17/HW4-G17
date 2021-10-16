@@ -26,6 +26,10 @@ public class MiniMax {
         for(Action action : actions(state))
             utilityValue = min(utilityValue, maxValue(result(state, action)));
 
+        // actions(state).forEach(
+        //     (action) -> utilityValue = min(utilityValue, maxValue(result(state, action)))
+        // );
+
         return utilityValue;
     }
 
