@@ -23,8 +23,8 @@ public class Game {
     }
 
     // Game factory
-    public static Game newGame(State initialState, int numPlayers){
-        if (initialState.getTiles() != null && numPlayers > 0)
+    public static Game newXOGame(State initialState, int numPlayers){
+        if (initialState.getTiles() != null && numPlayers == 2)
             return new Game(initialState, numPlayers);
         return null;
     }

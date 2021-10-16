@@ -1,5 +1,8 @@
 package search;
 
+import map.State;
+import resource.UtilityValue;
+
 import java.lang.Math;
 import game.Game;
 import map.State;
@@ -22,9 +25,9 @@ public class MiniMax {
         return finalAction;
     }
 
-    public static int minValue(State state) {
+    public static int minValue(Game game, State state) {
         if(Game.terminalTest(state))
-            return UtilityValue.utility(state);
+            return UtilityValue.utility(state, game.getPlayers());
 
         int utilityValue = Integer.MAX_VALUE;
 
@@ -38,9 +41,9 @@ public class MiniMax {
         return utilityValue;
     }
 
-    public static int maxValue(State state) {
+    public static int maxValue(Game game, State state) {
         if(Game.terminalTest(state))
-            return UtilityValue.utility(state);
+            return UtilityValue.utility(state, game.getPlayers());
 
         int utilityValue = Integer.MIN_VALUE;
 
