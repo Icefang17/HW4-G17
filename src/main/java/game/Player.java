@@ -1,10 +1,10 @@
 package game;
 
 public class Player {
-    int playerId;
+    private int playerId;
 
-    public Player(){
-
+    public Player(int playerId){
+        this.playerId = playerId;
     }
 
     public int getPlayerId(){return playerId;}

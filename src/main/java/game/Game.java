@@ -6,16 +6,28 @@ import java.util.ArrayList;
 
 public class Game {
 
-    public ArrayList<Player> players;
+    private ArrayList<State> stateList;
+    private ArrayList<Player> players;
+    private Player currentPlayer;
 
-    public Game(State initialState, ){
+    public Game(State initialState, int numPlayers){
+        this.stateList = new ArrayList<>();
+        stateList.add(initialState);
+        this.players = new ArrayList<>();
+        for(int i = 0; i < numPlayers; i++)
+            players.add(new Player(i + 1));
+        this.currentPlayer = players.get(0);
     }
 
-    public int getNextPlayer(State state){
-        return (state.player.getPlayerId() % players.size()) + 1;
+    public int getNextPlayer(){
+        return (currentPlayer.getPlayerId() + 1) % players.size();
     }
 
-    public Player getPlayer(State state){
-        return state.getPlayer();
+    public ArrayList<Player> getPlayers(){
+        return players;
+    }
+
+    public Player getCurrentPlayer(){
+        return currentPlayer;
     }
 }
