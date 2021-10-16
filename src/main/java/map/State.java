@@ -34,4 +34,19 @@ public class State {
     public Player getPlayer(){return player;}
 
     public Tile[][] getTiles(){return tiles;}
+
+    public void setTileToBlank(int x, int y) {
+        tiles[x][y].setValue(Mark.BLANK);
+    }
+
+    public void setTileToPlayer(int x, int y) {
+        tiles[x][y].setValue(player.getMark());
+    }
+
+
+    public static State result(Game game, State state, Action action) {
+        State newState = new State(game, state, action);
+
+        return newState;
+    }
 }

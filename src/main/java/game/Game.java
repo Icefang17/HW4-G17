@@ -57,14 +57,6 @@ public class Game {
         return actions;
     }
 
-    public static State result(State state, Action action) {
-        State newState = new State(state);
-
-        newState.setTile(action.x, action.y, currentPlayer); // Player = 'x' or 'o'
-
-        return newState;
-    }
-
     public static boolean terminalTest(State state) {
         // Row Check
         for(int i = 0; i < state.getTiles().length; i++) {
@@ -119,26 +111,5 @@ public class Game {
         }
 
         return false;
-    }
-
-    public static int utility(State state) {
-        int utilityValue = 0;
-
-        // Calculate open sides for players and then:
-
-        utilityValue =
-          100 * [num of 2-open 3-streak for player]
-        - 10 * [num of 2-open 3-streak for antiplayer]
-
-        + 100 * [num of 1-open 3-streak for player]
-        - 5 * [num of 1-open 3-streak for antiplayer]
-
-        + 2 * [num 2-open 2-streak for player]
-        - 2 * [num 2-open 2-streak for antiplayer]
-
-        + [num 1-open 2-streak for player]
-        - [num 1-open 2-streak for antiplayer];
-
-        return utilityValue;
     }
 }
