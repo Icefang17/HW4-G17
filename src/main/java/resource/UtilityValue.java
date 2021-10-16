@@ -19,21 +19,20 @@ public class UtilityValue {
     private static int calculateUtilityValue(State state, Player player, Player opponent) {
         int utilityValue = 0;
 
-        Player currentPlayer =
         // Calculate open sides for players and then:
 
         utilityValue =
                 100 * [num of 2-open 3-streak for player]
-                - 10 * [num of 2-open 3-streak for antiplayer]
+                - 10 * [num of 2-open 3-streak for opponent]
 
                 + 100 * [num of 1-open 3-streak for player]
-                - 5 * [num of 1-open 3-streak for antiplayer]
+                - 5 * [num of 1-open 3-streak for opponent]
 
                 + 2 * [num 2-open 2-streak for player]
-                - 2 * [num 2-open 2-streak for antiplayer]
+                - 2 * [num 2-open 2-streak for opponent]
 
                 + [num 1-open 2-streak for player]
-                - [num 1-open 2-streak for antiplayer];
+                - [num 1-open 2-streak for opponent];
 
         return utilityValue;
     }
