@@ -32,4 +32,6 @@ public class State {
     }
 
     public Player getPlayer(){return player;}
+
+    public Tile[][] getTiles(){return tiles;}
 }

@@ -11,17 +11,26 @@ public class Game {
     private Player currentPlayer;
     private int numPlayers;
 
-    public Game(State initialState, int numPlayers){
+    private Game(State initialState, int numPlayers){
         this.numPlayers = numPlayers;
         this.initialState = initialState;
         this.players = new ArrayList<>();
         for(int i = 0; i < numPlayers; i++)
             players.add(new Player(i + 1));
         this.currentPlayer = players.get(0);
+        initialState.player = currentPlayer;
     }
 
-    public int getNextPlayer(){
-        return (currentPlayer.getPlayerId() + 1) % players.size();
+    public static Game newGame(State initialState, int numPlayers){
+        return new Game(initialState, numPlayers);
+    }
+
+    private int getNextPlayer(){
+        return currentPlayer.getPlayerId() % numPlayers;
+    }
+
+    public void endTurn(){
+        this.currentPlayer = players.get(getNextPlayer());
     }
 
     public ArrayList<Player> getPlayers(){
