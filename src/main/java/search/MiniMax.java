@@ -1,13 +1,15 @@
 package search;
 
 import java.lang.Math;
+import game.Game;
+import map.State;
 
 public class MiniMax {
-    public Action minimaxDecision(State state) {
+    public static Action minimaxDecision(State state) {
         Action finalAction;
 
         // This loop is not done. Computes the element 'action' of set actions(state) that has the maximum value of minValue(result(state, action)).
-        for(Action action : actions(state)) {
+        for(Action action : Game.actions(state)) {
             // Probably use a comparator for this. ***
             if(minValue(result(state, action)))
                 break;
@@ -19,7 +21,7 @@ public class MiniMax {
         return finalAction;
     }
 
-    public int minValue(State state) {
+    public static int minValue(State state) {
         if(terminalTest(state))
             return utility(state);
 
@@ -35,7 +37,7 @@ public class MiniMax {
         return utilityValue;
     }
 
-    public int maxValue(State state) {
+    public static int maxValue(State state) {
         if(terminalTest(state))
             return utility(state);
 

@@ -45,7 +45,7 @@ public class Game {
         return currentPlayer;
     }
 
-    public ArrayList<Action> actions(State state) {
+    public static ArrayList<Action> actions(State state) {
         ArrayList<Action> actions = new ArrayList<>();
 
         // Each action available in the state (ie: Fill - 2,3)
@@ -57,15 +57,15 @@ public class Game {
         return actions;
     }
 
-    public State result(State state, Action action) {
+    public static State result(State state, Action action) {
         State newState = new State(state);
 
-        newState.setTile(action.x, action.y, player); // Player = 'x' or 'o'
+        newState.setTile(action.x, action.y, currentPlayer); // Player = 'x' or 'o'
 
         return newState;
     }
 
-    public boolean terminalTest(State state) {
+    public static boolean terminalTest(State state) {
         // Row Check
         for(int i = 0; i < state.getTiles().length; i++) {
             for(int j = 0; j < state.getTiles()[i].length - 3; j++) {
@@ -117,9 +117,11 @@ public class Game {
                 }  
             }
         }
+
+        return false;
     }
 
-    public int utility(State state) {
+    public static int utility(State state) {
         int utilityValue = 0;
 
         // Calculate open sides for players and then:
