@@ -10,15 +10,16 @@ import resource.UtilityValue;
 
 public class MiniMax {
     public static Action minimaxDecision(Game game, State state) {
+        int value = 0, hold;
         Action finalAction;
 
         // This loop is not done. Computes the element 'action' of set actions(state) that has the maximum value of minValue(result(state, action)).
+        // Grab the action from the available actions that has the greatest
         for(Action action : Game.actions(state)) {
-            // Probably use a comparator for this. ***
-            if(minValue(result(game, state, action)))
-                break;
+            hold = value;
+            value = max(value, minValue(result(game, state, action)));
 
-            else
+            if(value != hold)
                 finalAction = action;
         }
 
