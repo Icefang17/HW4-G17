@@ -7,14 +7,12 @@ import resource.Mark;
 import java.awt.*;
 
 public class State {
-
-    private State parentState;
     private Tile tiles[][];
     public Player player;
 
 
     public State(int xBound, int yBound){
-        this.parentState = null;
+        // this.parentState = null;
         for(int x = 0; x < xBound; x++){
             for(int y = 0; y < yBound; y++){
                 this.tiles[x][y] = new Tile(Mark.BLANK);
@@ -22,13 +20,17 @@ public class State {
         }
     }
     public State(Game game, State parentState, Point action){
-        this.parentState = parentState;
+        // this.parentState = parentState;
         this.player = game.getCurrentPlayer();
         for(int i = 0; i < parentState.tiles.length; i++){
             for(int j = 0; j < parentState.tiles[0].length; j++){
                 this.tiles[i][j] = new Tile(parentState.tiles[i][j].getValue());
             }
         }
+
+        // This needs actions. Set new tile from player mark.
+        this.tiles[(int)action.getX()][(int)action.getY()].setValue(player.getMark());
+   
     }
 
     public Player getPlayer(){return player;}
@@ -43,9 +45,8 @@ public class State {
         tiles[x][y].setValue(player.getMark());
     }
 
-
-    public static State result(Game game, State state, Action action) {
-        State newState = new State(game, state, action);
+    public State result(Game game, Point action) {
+        State newState = new State(game, this, action);
 
         return newState;
     }

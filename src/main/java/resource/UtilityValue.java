@@ -36,6 +36,7 @@ public class UtilityValue {
                 + [num 1-open 2-streak for player]
                 - [num 1-open 2-streak for opponent];*/
 
+        // true = 2-open false = 1-open
         utilityValue =
                 100 * (findStreaks(state, player, 3, true))
                 - 10 * (findStreaks(state, opponent, 3, true))
@@ -98,6 +99,9 @@ public class UtilityValue {
                                 }
                             }
                         }while(counter < streak && tiles[newX][newY].getValue() == player.getMark());
+                        for(int q = 0; q < streak && tiles[newX][newY].getValue() == player.getMark(); q++) {
+
+                        }
                     }
                 }
             }

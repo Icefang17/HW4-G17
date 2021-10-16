@@ -5,16 +5,14 @@ import map.Tile;
 import resource.Mark;
 
 import java.util.ArrayList;
+import java.awt.Point;
 
 public class Game {
-
     private State initialState;
     private ArrayList<Player> players;
     private Player currentPlayer;
-    private int numPlayers;
 
     private Game(State initialState){
-        this.numPlayers = numPlayers;
         this.initialState = initialState;
         this.players = new ArrayList<>();
         players.add(0, new Player(1, Mark.X));
@@ -25,13 +23,14 @@ public class Game {
 
     // Game factory
     public static Game newXOGame(State initialState, int numPlayers){
-        if (initialState.getTiles() != null && numPlayers == 2)
+        if(initialState.getTiles() != null && numPlayers == 2)
             return new Game(initialState);
+
         return null;
     }
 
     private int getNextPlayer(){
-        return currentPlayer.getPlayerId() % numPlayers;
+        return currentPlayer.getPlayerId() % players.size();
     }
 
     public void endTurn(){
@@ -46,27 +45,30 @@ public class Game {
         return currentPlayer;
     }
 
-    public static ArrayList<Action> actions(State state) {
-        ArrayList<Action> actions = new ArrayList<>();
+    public static ArrayList<Point> actions(State state) {
+        ArrayList<Point> actionList = new ArrayList<>();
 
-        // Each action available in the state (ie: Fill - 2,3)
-        for(all possible actions) {
-            if(action is available)
-                actions.add(action);
+        for(int i = 0; i < state.getTiles().length; i++) {
+            for(int j = 0; j < state.getTiles()[i].length; j++) {
+                if(state.getTiles()[i][j].getValue() == Mark.BLANK) {
+                    Point action = new Point(i, j);
+                    actionList.add(action);
+                }
+            }
         }
 
-        return actions;
+        return actionList;
     }
 
     public static boolean terminalTest(State state) {
         // Row Check
         for(int i = 0; i < state.getTiles().length; i++) {
             for(int j = 0; j < state.getTiles()[i].length - 3; j++) {
-                Tile curTile = state.getTiles()[i][j];
+                Mark curMark = state.getTiles()[i][j].getValue();
 
-                if(curTile == state.getTiles()[i][j + 1] &&
-                   curTile == state.getTiles()[i][j + 2] &&
-                   curTile == state.getTiles()[i][j + 3]) {
+                if(curMark == state.getTiles()[i][j + 1].getValue() &&
+                   curMark == state.getTiles()[i][j + 2].getValue() &&
+                   curMark == state.getTiles()[i][j + 3].getValue()) {
                     return true;
                 }           
             }

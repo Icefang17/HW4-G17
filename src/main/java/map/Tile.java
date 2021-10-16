@@ -18,7 +18,7 @@ public class Tile {
 
     public static Point goTopLeft(int x, int y, int xBound, int yBound){
         if(checkBounds(x--, y++, xBound, yBound))
-            return new Point(x--, y++)
+            return new Point(x--, y++);
         return new Point(0, 0);
     }
 
