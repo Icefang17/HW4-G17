@@ -29,7 +29,7 @@ public class MiniMax {
             utilityValue = Math.min(utilityValue, maxValue(result(state, action)));
 
         // actions(state).forEach(
-        //     (action) -> utilityValue = min(utilityValue, maxValue(result(state, action)))
+        //     (action) -> utilityValue = Math.min(utilityValue, maxValue(result(state, action)))
         // );
 
         return utilityValue;
