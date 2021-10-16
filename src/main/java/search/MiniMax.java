@@ -1,5 +1,8 @@
 package search;
 
+import map.State;
+import resource.UtilityValue;
+
 import java.lang.Math;
 
 public class MiniMax {
@@ -9,7 +12,7 @@ public class MiniMax {
         // This loop is not done. Computes the element 'action' of set actions(state) that has the maximum value of minValue(result(state, action)).
         for(Action action : actions(state)) {
             // Probably use a comparator for this. ***
-            if(minValue(result(state, action)))
+            if(minValue(Game.result(state, action)))
                 break;
 
             else
@@ -21,7 +24,7 @@ public class MiniMax {
 
     public int minValue(State state) {
         if(terminalTest(state))
-            return utility(state);
+            return UtilityValue.utility(state);
 
         int utilityValue = Integer.MAX_VALUE;
 
