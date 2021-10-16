@@ -2,6 +2,7 @@ package game;
 
 import map.State;
 import map.Tile;
+import resource.Mark;
 
 import java.util.ArrayList;
 
@@ -12,12 +13,12 @@ public class Game {
     private Player currentPlayer;
     private int numPlayers;
 
-    private Game(State initialState, int numPlayers){
+    private Game(State initialState){
         this.numPlayers = numPlayers;
         this.initialState = initialState;
         this.players = new ArrayList<>();
-        for(int i = 0; i < numPlayers; i++)
-            players.add(new Player(i + 1));
+        players.add(0, new Player(1, Mark.X));
+        players.add(1, new Player(2, Mark.O));
         this.currentPlayer = players.get(0);
         initialState.player = currentPlayer;
     }
@@ -25,7 +26,7 @@ public class Game {
     // Game factory
     public static Game newXOGame(State initialState, int numPlayers){
         if (initialState.getTiles() != null && numPlayers == 2)
-            return new Game(initialState, numPlayers);
+            return new Game(initialState);
         return null;
     }
 
