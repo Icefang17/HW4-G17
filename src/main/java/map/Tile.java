@@ -17,51 +17,51 @@ public class Tile {
     public Mark getValue() {return value;}
 
     public static Point goTopLeft(int x, int y, int xBound, int yBound){
-        if(checkBounds(x--, y++, xBound, yBound))
-            return new Point(x--, y++);
-        return new Point(0, 0);
+        if(checkBounds(x - 1, y + 1, xBound, yBound))
+            return new Point(-1, 1);
+        return null;
     }
 
     public static Point goTop(int x, int y, int xBound, int yBound){
-        if(checkBounds(x, y++, xBound, yBound))
-            return new Point(x, y++);
-        return new Point(0, 0);
+        if(checkBounds(x, y + 1, xBound, yBound))
+            return new Point(0, 1);
+        return null;
     }
 
     public static Point goTopRight(int x, int y, int xBound, int yBound){
-        if(checkBounds(x++, y++, xBound, yBound))
-            return new Point(x++, y++);
-        return new Point(0, 0);
+        if(checkBounds(x + 1, y + 1, xBound, yBound))
+            return new Point(1, 1);
+        return null;
     }
 
     public static Point goLeft(int x, int y, int xBound, int yBound){
-        if(checkBounds(x--, y, xBound, yBound))
-            return new Point(x--, y);
-        return new Point(0, 0);
+        if(checkBounds(x - 1, y, xBound, yBound))
+            return new Point(-1, 0);
+        return null;
     }
 
     public static Point goRight(int x, int y, int xBound, int yBound){
-        if(checkBounds(x++, y, xBound, yBound))
-            return new Point(x++, y);
-        return new Point(0, 0);
+        if(checkBounds(x + 1, y, xBound, yBound))
+            return new Point(1, 0);
+        return null;
     }
 
     public static Point goBotLeft(int x, int y, int xBound, int yBound){
-        if(checkBounds(--x, y--, xBound, yBound))
-            return new Point(x--, y--);
-        return new Point(0, 0);
+        if(checkBounds(x - 1, y - 1, xBound, yBound))
+            return new Point(-1, -1);
+        return null;
     }
 
     public static Point goBot(int x, int y, int xBound, int yBound){
-        if(checkBounds(x, y--, xBound, yBound))
-            return new Point(x, y--);
-        return new Point(0, 0);
+        if(checkBounds(x, y - 1, xBound, yBound))
+            return new Point(0, -1);
+        return null;
     }
 
     public static Point goBotRight(int x, int y, int xBound, int yBound){
-        if(checkBounds(x++, y--, xBound, yBound))
-            return new Point(x++, y--);
-        return new Point(0, 0);
+        if(checkBounds(x + 1, y - 1, xBound, yBound))
+            return new Point(1, -1);
+        return null;
     }
 
     private static boolean checkBounds(int x, int y, int xBound, int yBound){

@@ -35,6 +35,7 @@ public class Game {
 
     public void endTurn(){
         this.currentPlayer = players.get(getNextPlayer());
+        this.gameState.player = currentPlayer;
     }
 
     public ArrayList<Player> getPlayers(){
