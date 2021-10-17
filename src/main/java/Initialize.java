@@ -19,6 +19,7 @@ public class Initialize {
         int count = 0;
         while(!Game.terminalTest(game.getGameState())){
             currentPlayer = game.getCurrentPlayer();
+            game.getGameState().printState();
             Point action = MiniMax.minimaxDecision(game, game.getGameState(), currentPlayer.getPlayerId() * 2);
             game.getGameState().setTileToPlayer(action.x, action.y);
             game.endTurn();

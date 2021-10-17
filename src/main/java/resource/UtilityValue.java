@@ -51,6 +51,7 @@ public class UtilityValue {
                 + (streaks.get(6))
                 - (streaks.get(7));
 
+        // state.printState();
         return utilityValue;
     }
 
@@ -144,6 +145,7 @@ public class UtilityValue {
     // list[6]: 1-open 2 streaks - player
     // list[7]: 1-open 2 streaks - opponent
     private static ArrayList<Integer> findStreaks(State state){
+        // state.printState();
         ArrayList<ArrayList<Tile>> tiles = state.getTiles();
         ArrayList<Integer> streaks = new ArrayList<>();
 
@@ -161,22 +163,28 @@ public class UtilityValue {
         for(int x = 0; x < xBound; x++){
             for(int y = 0; y < yBound; y++){
                 if(tiles.get(x).get(y).getValue() == Mark.BLANK){
-                    //start scan
                     Point location = new Point(x, y);
+
                     for(int i = 0; i < 8; i++){
                         location.setLocation(x, y);
-                        translation = getDirectionVector(x, y, xBound, yBound, i);
+                        translation = getDirectionVector(location.x, location.y, xBound, yBound, i);
+
                         // Edge of board edge-case
                         if(translation != null) {
-                            location.translate(translation.x, translation.y);
                             int counter = 0;
+
+                            location.translate(translation.x, translation.y);
+
                             // Loop while finding player marks
                             if(tiles.get(location.x).get(location.y).getValue() == playerMark) {
                                 player = true;
+
                                 while (tiles.get(location.x).get(location.y).getValue() == playerMark) {
                                     counter++;
-                                    if (getDirectionVector(location.x, location.y, xBound, yBound, i) == null)
+
+                                    if(getDirectionVector(location.x, location.y, xBound, yBound, i) == null)
                                         break;
+
                                     location.translate(translation.x, translation.y);
                                 }
                             }

@@ -1,7 +1,6 @@
 package game;
 
 import map.State;
-import map.Tile;
 import resource.Mark;
 
 import java.util.ArrayList;
@@ -29,12 +28,12 @@ public class Game {
     }
 
     // Returns index (player ID is index + 1)
-    private int getNextPlayer(){
-        return currentPlayer.getPlayerId() % players.size();
+    public int getNextPlayer(Player player){
+        return player.getPlayerId() % players.size();
     }
 
     public void endTurn(){
-        this.currentPlayer = players.get(getNextPlayer());
+        this.currentPlayer = players.get(getNextPlayer(currentPlayer));
         this.gameState.player = currentPlayer;
     }
 

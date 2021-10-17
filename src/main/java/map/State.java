@@ -33,7 +33,7 @@ public class State {
     public State(Game game, State parentState, Point action){
         // this.parentState = parentState;
         this.tiles = new ArrayList<>();
-        this.player = game.getCurrentPlayer();
+        this.player = game.getPlayers().get(game.getNextPlayer(parentState.player));
         for(int i = 0; i < parentState.tiles.size(); i++){
             this.tiles.add(new ArrayList<Tile>());
             for(int j = 0; j < parentState.tiles.get(i).size(); j++){
@@ -61,5 +61,19 @@ public class State {
         State newState = new State(game, this, action);
 
         return newState;
+    }
+
+    public void printState() {
+        System.out.println("-------------------------");
+        for(int i = 0; i < this.getTiles().size(); i++) {
+            for(int j = 0; j < this.getTiles().get(i).size(); j++) {
+                if(this.getTiles().get(i).get(j).getValue() == Mark.BLANK)
+                    System.out.printf("|   ", this.getTiles().get(i).get(j).getValue());
+                else
+                    System.out.printf("| %s ", this.getTiles().get(i).get(j).getValue());
+            }
+
+            System.out.println("|\n-------------------------");
+        }
     }
 }

@@ -5,6 +5,7 @@ import map.State;
 import resource.UtilityValue;
 
 import java.lang.Math;
+import java.util.Random;
 import java.awt.Point;
 
 public class MiniMax {
@@ -20,10 +21,23 @@ public class MiniMax {
         // Grab the action from the available actions that has the greatest
         Game.actions(state).forEach((action) -> {
             int hold = value;
-            value = Math.max(value, minValue(game, state.result(game, action), depth));
+            value = Math.max(value, minValue(game, state, depth));
 
-            if(value != hold)
-                finalAction = new Point(action);
+            if(value > hold)
+                finalAction = action;
+
+            else if(value - hold == 0) {
+                Random random = new Random();
+                int rand = random.nextInt(2);
+
+                switch(rand) {
+                    case 0:
+                        finalAction = action;
+                        break;
+                    case 1:
+                        break;
+                }
+            }
         });
 
         return finalAction;
