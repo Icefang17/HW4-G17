@@ -4,7 +4,7 @@ import game.Player;
 import map.State;
 import map.Tile;
 
-import java.awt.*;
+import java.awt.Point;
 import java.util.ArrayList;
 
 public class UtilityValue {
@@ -54,15 +54,15 @@ public class UtilityValue {
     }
 
     private static int findStreaks(State state, Player player, int streak, boolean open){
-        Tile tiles[][] = state.getTiles();
+        ArrayList<ArrayList<Tile>> tiles = state.getTiles();
         Point coordinates;
         ArrayList<Point> found = new ArrayList<>();
 
-        for(int x = 0; x < tiles.length; x++){
-            for(int y = 0; y < tiles[0].length; y++){
-                if(tiles[x][y].getValue() == Mark.BLANK){
+        for(int x = 0; x < tiles.size(); x++){
+            for(int y = 0; y < tiles.get(x).size(); y++){
+                if(tiles.get(x).get(y).getValue() == Mark.BLANK){
                     for(int i = 0; i < 8; i++){
-                        coordinates = checkAdjacentTiles(x, y, tiles.length, tiles[0].length, i);
+                        coordinates = checkAdjacentTiles(x, y, tiles.size(), tiles.get(x).size(), i);
                         int counter = 0;
                         int newX = coordinates.x;
                         int newY = coordinates.y;
@@ -74,14 +74,14 @@ public class UtilityValue {
                                 break;
 
                             // Repeat the directional operation
-                            coordinates = checkAdjacentTiles(newX, newY, tiles.length, tiles[0].length, i);
+                            coordinates = checkAdjacentTiles(newX, newY, tiles.size(), tiles.get(x).size(), i);
                             newX = coordinates.x;
                             newY = coordinates.y;
 
                             // Add streak to found if looking for closed streak
-                            if(counter == streak && tiles[newX][newY].getValue() == player.getMark()){
-                                coordinates = checkAdjacentTiles(newX, newY, tiles.length, tiles[0].length, i);
-                                Mark mark = tiles[coordinates.x][coordinates.y].getValue();
+                            if(counter == streak && tiles.get(newX).get(newY).getValue() == player.getMark()){
+                                coordinates = checkAdjacentTiles(newX, newY, tiles.size(), tiles.get(x).size(), i);
+                                Mark mark = tiles.get(coordinates.x).get(coordinates.y).getValue();
                                 // If looking for an open streak
                                 if(open){
                                     // Make sure the streak is open and hasn't already been found
@@ -98,10 +98,10 @@ public class UtilityValue {
                                     break;
                                 }
                             }
-                        }while(counter < streak && tiles[newX][newY].getValue() == player.getMark());
-                        for(int q = 0; q < streak && tiles[newX][newY].getValue() == player.getMark(); q++) {
+                        }while(counter < streak && tiles.get(newX).get(newY).getValue() == player.getMark());
+                        /*for(int q = 0; q < streak && tiles.get(newX).get(newY).getValue() == player.getMark(); q++) {
 
-                        }
+                        }*/
                     }
                 }
             }

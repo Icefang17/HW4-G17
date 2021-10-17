@@ -2,7 +2,7 @@ package map;
 
 import resource.Mark;
 
-import java.awt.*;
+import java.awt.Point;
 
 public class Tile {
 
