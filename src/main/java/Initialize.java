@@ -1,9 +1,10 @@
 import game.Game;
 import game.Player;
 import map.State;
+import resource.UtilityValue;
 import search.MiniMax;
 
-import java.awt.*;
+import java.awt.Point;
 
 public class Initialize {
 
@@ -18,17 +19,19 @@ public class Initialize {
         Game game = Game.newXOGame(initialState, 2);
         int count = 0;
         long startTime = System.nanoTime();
-        while(!Game.terminalTest(game.getGameState())){
+        do{
             currentPlayer = game.getCurrentPlayer();
-            System.out.println("\nTurn: " + count);
-            game.getGameState().printState();
             Point action = MiniMax.minimaxDecision(game, game.getGameState(), currentPlayer.getPlayerId() * 2);
+
             if(count == 0)
                 System.out.println("First Move: X -> (" + action.x + ", " + action.y + ")");
-            game.getGameState().setTileToPlayer(action.x, action.y);
-            game.endTurn();
             count++;
-        }
+            game.getGameState().setTileToPlayer(action.x, action.y);
+            System.out.println("\nTurn: " + count + "( Player " + currentPlayer.getPlayerId() + ")");
+            game.getGameState().printState();
+            UtilityValue.utility(game.getGameState(), game.getPlayers());
+            game.endTurn();
+        }while(!Game.terminalTest(game.getGameState()));
         long endTime = System.nanoTime();
         System.out.println("Game ended with time: " + (((endTime - startTime) / 1000000000) / 60) + ":" + (((endTime - startTime) / 1000000000) % 60));
         System.out.println("Player " + game.getCurrentPlayer().getPlayerId() + " won the game!");
