@@ -17,7 +17,7 @@ public class Game {
         players.add(0, new Player(1, Mark.X));
         players.add(1, new Player(2, Mark.O));
         this.currentPlayer = players.get(0);
-        this.gameState.player = currentPlayer;
+        this.gameState.setPlayer(currentPlayer);
     }
 
     // Game factory
@@ -34,7 +34,7 @@ public class Game {
 
     public void endTurn(){
         this.currentPlayer = players.get(getNextPlayer(currentPlayer));
-        this.gameState.player = currentPlayer;
+        this.gameState.setPlayer(currentPlayer);
     }
 
     public ArrayList<Player> getPlayers(){
@@ -56,9 +56,9 @@ public class Game {
     public static ArrayList<Point> actions(State state) {
         ArrayList<Point> actionList = new ArrayList<>();
 
-        for(int i = 0; i < state.getTiles().size(); i++) {
-            for(int j = 0; j < state.getTiles().get(i).size(); j++) {
-                if(state.getTiles().get(i).get(j).getValue() == Mark.BLANK) {
+        for(int i = 0; i < state.getTiles().length; i++) {
+            for(int j = 0; j < state.getTiles()[i].length; j++) {
+                if(state.getTiles()[i][j].getValue() == Mark.BLANK) {
                     Point action = new Point(i, j);
                     actionList.add(action);
                 }
@@ -71,48 +71,48 @@ public class Game {
     public static boolean terminalTest(State state) {
         Mark curMark = state.getPlayer().getMark();
         // Row Check
-        for(int i = 0; i < state.getTiles().size(); i++) {
-            for(int j = 0; j < state.getTiles().get(i).size() - 3; j++) {
-                if(curMark == state.getTiles().get(i).get(j).getValue() &&
-                        curMark == state.getTiles().get(i).get(j + 1).getValue() &&
-                        curMark == state.getTiles().get(i).get(j + 2).getValue() &&
-                        curMark == state.getTiles().get(i).get(j + 3).getValue()) {
+        for(int i = 0; i < state.getTiles().length; i++) {
+            for(int j = 0; j < state.getTiles()[i].length - 3; j++) {
+                if(curMark == state.getTiles()[i][j].getValue() &&
+                        curMark == state.getTiles()[i][j + 1].getValue() &&
+                        curMark == state.getTiles()[i][j + 2].getValue() &&
+                        curMark == state.getTiles()[i][j + 3].getValue()) {
                     return true;
                 }           
             }
         }
 
         // Column Check
-        for(int i = 0; i < state.getTiles().size() - 3; i++) {
-            for(int j = 0; j < state.getTiles().get(i).size(); j++) {
-                if(curMark == state.getTiles().get(i).get(j).getValue() &&
-                        curMark == state.getTiles().get(i + 1).get(j).getValue() &&
-                        curMark == state.getTiles().get(i + 2).get(j).getValue() &&
-                        curMark == state.getTiles().get(i + 3).get(j).getValue()) {
+        for(int i = 0; i < state.getTiles().length - 3; i++) {
+            for(int j = 0; j < state.getTiles()[i].length; j++) {
+                if(curMark == state.getTiles()[i][j].getValue() &&
+                        curMark == state.getTiles()[i + 1][j].getValue() &&
+                        curMark == state.getTiles()[i + 2][j].getValue() &&
+                        curMark == state.getTiles()[i + 3][j].getValue()) {
                     return true;
                 }           
             }
         }
 
         // Normal Diagonal Check
-        for(int i = 0; i < state.getTiles().size() - 3; i++) {
-            for(int j = 0; j < state.getTiles().get(i).size() - 3; j++) {
-                if(curMark == state.getTiles().get(i).get(j).getValue() &&
-                        curMark == state.getTiles().get(i + 1).get(j + 1).getValue() &&
-                        curMark == state.getTiles().get(i + 2).get(j + 2).getValue() &&
-                        curMark == state.getTiles().get(i + 3).get(j + 3).getValue()) {
+        for(int i = 0; i < state.getTiles().length - 3; i++) {
+            for(int j = 0; j < state.getTiles()[i].length - 3; j++) {
+                if(curMark == state.getTiles()[i][j].getValue() &&
+                        curMark == state.getTiles()[i + 1][j + 1].getValue() &&
+                        curMark == state.getTiles()[i + 2][j + 2].getValue() &&
+                        curMark == state.getTiles()[i + 3][j + 3].getValue()) {
                     return true;
                 }  
             }
         }
 
         // Anti-Normal Diagonal Check
-        for(int i = 0; i < state.getTiles().size() - 3; i++) {
-            for(int j = 3; j < state.getTiles().get(i).size(); j++) {
-                if(curMark == state.getTiles().get(i).get(j).getValue() &&
-                        curMark == state.getTiles().get(i + 1).get(j - 1).getValue() &&
-                        curMark == state.getTiles().get(i + 2).get(j - 2).getValue() &&
-                        curMark == state.getTiles().get(i + 3).get(j - 3).getValue()) {
+        for(int i = 0; i < state.getTiles().length - 3; i++) {
+            for(int j = 3; j < state.getTiles()[i].length; j++) {
+                if(curMark == state.getTiles()[i][j].getValue() &&
+                        curMark == state.getTiles()[i + 1][j - 1].getValue() &&
+                        curMark == state.getTiles()[i + 2][j - 2].getValue() &&
+                        curMark == state.getTiles()[i + 3][j - 3].getValue()) {
                     return true;
                 }  
             }

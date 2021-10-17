@@ -1,5 +1,6 @@
 package resource;
 
+import game.Game;
 import game.Player;
 import map.State;
 import map.Tile;
@@ -50,8 +51,11 @@ public class UtilityValue {
 
                 + (streaks.get(6))
                 - (streaks.get(7));
+            
+        for(int i = 0; i <= 7; i++)
+            if(streaks.get(i) != 0)    
+                System.out.println(i + " = " + streaks.get(i));
 
-        // state.printState();
         return utilityValue;
     }
 
@@ -145,13 +149,12 @@ public class UtilityValue {
     // list[6]: 1-open 2 streaks - player
     // list[7]: 1-open 2 streaks - opponent
     private static ArrayList<Integer> findStreaks(State state){
-        // state.printState();
-        ArrayList<ArrayList<Tile>> tiles = state.getTiles();
+        Tile[][] tiles = state.getTiles();
         ArrayList<Integer> streaks = new ArrayList<>();
 
         Mark playerMark = state.getPlayer().getMark();
-        int xBound = state.getTiles().size() - 1;
-        int yBound = state.getTiles().get(0).size() - 1;
+        int xBound = state.getTiles().length - 1;
+        int yBound = state.getTiles()[0].length - 1;
         boolean player = false;
 
         Point translation = new Point();
@@ -162,7 +165,7 @@ public class UtilityValue {
 
         for(int x = 0; x < xBound; x++){
             for(int y = 0; y < yBound; y++){
-                if(tiles.get(x).get(y).getValue() == Mark.BLANK){
+                if(tiles[x][y].getValue() == Mark.BLANK){
                     Point location = new Point(x, y);
 
                     for(int i = 0; i < 8; i++){
@@ -176,10 +179,10 @@ public class UtilityValue {
                             location.translate(translation.x, translation.y);
 
                             // Loop while finding player marks
-                            if(tiles.get(location.x).get(location.y).getValue() == playerMark) {
+                            if(tiles[location.x][location.y].getValue() == playerMark) {
                                 player = true;
 
-                                while (tiles.get(location.x).get(location.y).getValue() == playerMark) {
+                                while (tiles[location.x][location.y].getValue() == playerMark) {
                                     counter++;
 
                                     if(getDirectionVector(location.x, location.y, xBound, yBound, i) == null)
@@ -189,10 +192,10 @@ public class UtilityValue {
                                 }
                             }
                             // Loop while finding opponent marks
-                            else if(tiles.get(location.x).get(location.y).getValue() != Mark.BLANK){
+                            else if(tiles[location.x][location.y].getValue() != Mark.BLANK){
                                 player = false;
-                                while (tiles.get(location.x).get(location.y).getValue() != playerMark &&
-                                            tiles.get(location.x).get(location.y).getValue() != Mark.BLANK) {
+                                while (tiles[location.x][location.y].getValue() != playerMark &&
+                                            tiles[location.x][location.y].getValue() != Mark.BLANK) {
                                     counter++;
                                     if (getDirectionVector(location.x, location.y, xBound, yBound, i) == null)
                                         break;
@@ -201,7 +204,7 @@ public class UtilityValue {
                             }
                             if(counter > 1) {
                                 // 2-open
-                                if (tiles.get(location.x).get(location.y).getValue() == Mark.BLANK) {
+                                if (tiles[location.x][location.y].getValue() == Mark.BLANK) {
                                     // player
                                     if(player){
                                         // 2-streak

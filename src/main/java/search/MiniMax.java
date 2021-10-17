@@ -14,14 +14,12 @@ public class MiniMax {
     static int utilityValue;
 
     public static Point minimaxDecision(Game game, State state, int depth) {
-        //int value = 0;
-        // Point finalAction;
-
-        // This loop is maybe done. Computes the element 'action' of set actions(state) that has the maximum value of minValue(result(state, action)).
-        // Grab the action from the available actions that has the greatest
         Game.actions(state).forEach((action) -> {
             int hold = value;
-            value = Math.max(value, minValue(game, state, depth));
+            value = Math.max(value, minValue(game, state.result(game, action), depth));
+
+            if(value != 0)
+                System.out.println(value);
 
             if(value > hold)
                 finalAction = action;
@@ -49,13 +47,13 @@ public class MiniMax {
 
         utilityValue = Integer.MAX_VALUE;
 
-        // for(Action action : Game.actions(state))
-        //     utilityValue = Math.min(utilityValue, maxValue(game, state.result(game, action)));
-
-        Game.actions(state).forEach((action) -> {
+        for(Point action : Game.actions(state)) {
             utilityValue = Math.min(utilityValue, maxValue(game, state.result(game, action), depth - 1));
-        });
+        }
 
+        // Game.actions(state).forEach((action) -> {
+        //     utilityValue = Math.min(utilityValue, maxValue(game, state.result(game, action), depth - 1));
+        // });
         return utilityValue;
     }
 
@@ -65,13 +63,13 @@ public class MiniMax {
 
         utilityValue = Integer.MIN_VALUE;
 
-        // for(Action action : Game.actions(state))
-        //     utilityValue = Math.max(utilityValue, minValue(state.result(game, action)));
-
-        Game.actions(state).forEach((action) -> {
+        for(Point action : Game.actions(state)) {
             utilityValue = Math.max(utilityValue, minValue(game, state.result(game, action), depth - 1));
-        });
-
+        }
+        
+        // Game.actions(state).forEach((action) -> {
+        //     utilityValue = Math.max(utilityValue, minValue(game, state.result(game, action), depth - 1));
+        // });
         return utilityValue;
     }
 }
