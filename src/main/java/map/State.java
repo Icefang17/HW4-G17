@@ -33,8 +33,7 @@ public class State {
         for(int i = 0; i < xBound; i++)
             for(int j = 0; j < yBound; j++)
                 this.tiles[i][j] = new Tile(parentState.getTiles()[i][j].getValue());
-            
-        // this.tiles.get(action.x).get(action.y).setValue(parentState.getPlayer().getMark());
+
         this.player = game.getPlayers().get(game.getNextPlayer(parentState.getPlayer()));
     }
 
