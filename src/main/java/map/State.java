@@ -60,18 +60,17 @@ public class State {
     public int getTurn(){
         return turn;
     }
-
     public void printState() {
-        System.out.println("-------------------------");
-        for(int i = 0; i < this.getTiles().length; i++) {
-            for(int j = 0; j < this.getTiles()[i].length; j++) {
-                if(this.getTiles()[i][j].getValue() == Mark.BLANK)
-                    System.out.printf("|   ", this.getTiles()[i][j].getValue());
+        System.out.println("---------------------");
+        for(int y = this.getTiles()[0].length - 1;  y >= 0; y--) {
+            for(int x = 0; x < this.getTiles().length; x++) {
+                if(this.getTiles()[x][y].getValue() == Mark.BLANK)
+                    System.out.printf("|   ", this.getTiles()[x][y].getValue());
                 else
-                    System.out.printf("| %s ", this.getTiles()[i][j].getValue());
+                    System.out.printf("| %s ", this.getTiles()[x][y].getValue());
             }
 
-            System.out.println("|\n-------------------------");
+            System.out.println("|\n---------------------");
         }
     }
 }
