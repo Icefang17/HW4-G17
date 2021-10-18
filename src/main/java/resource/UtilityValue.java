@@ -38,8 +38,8 @@ public class UtilityValue {
                 - [num 1-open 2-streak for opponent];*/
 
         // true = 2-open false = 1-open
-        ArrayList<Integer> streaks = findStreaks(state, player);
-        //System.out.println("Player " + player.getPlayerId() + " is evaluating their options.");
+        ArrayList<Integer> streaks = findStreaks(state, player, opponent);
+        // System.out.println(streaks);
         utilityValue =
                 100 * (streaks.get(0))
                 - 10 * (streaks.get(1))
@@ -144,7 +144,7 @@ public class UtilityValue {
                                 player = false;
                                 while (tiles[location.x][location.y].getValue() == opMark) {
                                     counter++;
-                                    if (getDirectionVector(location.x, location.y, xBound, yBound, i) == null) {
+                                    if(getDirectionVector(location.x, location.y, xBound, yBound, i) == null) {
                                         edge = true;
                                         break;
                                     }
@@ -174,7 +174,7 @@ public class UtilityValue {
                                     }
                                 }
                                 // 1-open
-                                else if(tiles[location.x][location.y].getValue() == opMark || location.x == xBound || location.x == 0 || location.y == yBound || location.y == 0){
+                                else if(tiles[location.x][location.y].getValue() == opMark || edge){
                                     // player
                                     if(!player){
                                         // 2-streak
@@ -202,5 +202,4 @@ public class UtilityValue {
         }
         return streaks;
     }
-
 }
