@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class UtilityValue {
 
-    public static int utility(State state, ArrayList<Player> players){
+    public static int utility(State state, ArrayList<Player> players) {
         if(state != null && players.size() == 2) {
             if(state.getPlayer().getPlayerId() == 1)
                 return calculateUtilityValue(state, players.get(0), players.get(1));
@@ -21,20 +21,25 @@ public class UtilityValue {
     private static int calculateUtilityValue(State state, Player player, Player opponent) {
         int utilityValue = 0;
 
-        // Heuristics defined as:
-        /*100 * [num of 2-open 3-streak for player]
-        - 10 * [num of 2-open 3-streak for opponent]
+        /**
+         * Heuristics defined as:
+         * 100 * [num of 2-open 3-streak for player]
+         * - 10 * [num of 2-open 3-streak for opponent]
+         *
+         * + 100 * [num of 1-open 3-streak for player]
+         * - 5 * [num of 1-open 3-streak for opponent]
+         *
+         * + 2 * [num 2-open 2-streak for player]
+         * - 2 * [num 2-open 2-streak for opponent]
+         *
+         * + 1 * [num 1-open 2-streak for player]
+         * - 1 * [num 1-open 2-streak for opponent]
+        **/
 
-        + 100 * [num of 1-open 3-streak for player]
-        - 5 * [num of 1-open 3-streak for opponent]
-
-        + 2 * [num 2-open 2-streak for player]
-        - 2 * [num 2-open 2-streak for opponent]
-
-        + [num 1-open 2-streak for player]
-        - [num 1-open 2-streak for opponent]*/
-
+        // Calculate streaks.
         ArrayList<Integer> streaks = findStreaks(state, player, opponent);
+
+        // Calculate utility value relative to found streaks.
         utilityValue =
                 100 * (streaks.get(0))
                 - 10 * (streaks.get(1))
@@ -52,7 +57,8 @@ public class UtilityValue {
     }
 
     private static Point getDirectionVector(int x, int y, int xBound, int yBound, int instruction){
-        switch(instruction){
+        // Instruction table for 8 directions from a single tile.
+        switch(instruction) {
             case(0):
                 return Tile.goTopLeft(x, y, xBound, yBound);
             case(1):
@@ -93,94 +99,116 @@ public class UtilityValue {
         int xBound = state.getTiles().length - 1;
         int yBound = state.getTiles()[0].length - 1;
         boolean player = false;
-
         Point translation = new Point();
 
+        // Initialize all streaks to 0.
         for(int i = 0; i < 8; i++){
             streaks.add(0);
         }
 
+        // Iterate through all possible points.
         for(int x = 0; x < xBound; x++){
             for(int y = 0; y < yBound; y++){
+                // If the point is blank.
                 if(tiles[x][y].getValue() == Mark.BLANK){
                     Point location = new Point(x, y);
+                    // location.setLocation(x, y);
 
+                    // Check all adjacent tiles.
                     for(int i = 0; i < 8; i++){
-                        location.setLocation(x, y);
+                        // Set the translation to the vector to the adjacent tile.
                         translation = getDirectionVector(location.x, location.y, xBound, yBound, i);
 
-                        // Edge of board edge-case
+                        // Edge of board edge-case.
                         if(translation != null) {
                             int counter = 0;
                             boolean edge = false;
                             location.translate(translation.x, translation.y);
 
-                            // Loop while finding player marks
+                            // Loop while finding player marks.
                             if(tiles[location.x][location.y].getValue() == playerMark) {
+                                // Looking at current player.
                                 player = true;
 
-                                while (tiles[location.x][location.y].getValue() == playerMark) {
+                                // While there are equal player marks remaining in the direction of the vector
+                                while(tiles[location.x][location.y].getValue() == playerMark) {
+                                    // Increment streak.
                                     counter++;
 
+                                    // If the edge of the board has been reached.
                                     if(getDirectionVector(location.x, location.y, xBound, yBound, i) == null) {
                                         edge = true;
                                         break;
                                     }
 
+                                    // Simulate a translation in the direction of the translation vector.
                                     location.translate(translation.x, translation.y);
                                 }
                             }
-                            // Loop while finding opponent marks
+                            // Loop while finding opponent marks.
                             else if(tiles[location.x][location.y].getValue() != Mark.BLANK){
+                                // Looking at opposing player.
                                 player = false;
-                                while (tiles[location.x][location.y].getValue() == opMark) {
+
+                                // While there are equal player marks remaining in the direction of the vector
+                                while(tiles[location.x][location.y].getValue() == opMark) {
+                                    // Increment streak.
                                     counter++;
+
+                                    // If the edge of the board has been reached.                                   
                                     if(getDirectionVector(location.x, location.y, xBound, yBound, i) == null) {
                                         edge = true;
                                         break;
                                     }
+
+                                    // Simulate a translation in the direction of the translation vector.
                                     location.translate(translation.x, translation.y);
                                 }
                             }
+
+                            // If the streak is greater than 1.
                             if(counter > 1) {
-                                // 2-open
-                                if (tiles[location.x][location.y].getValue() == Mark.BLANK) {
-                                    // player
+                                // Count 2-open occurences.
+                                if(tiles[location.x][location.y].getValue() == Mark.BLANK) {
+                                    // For the current player.
                                     if(!player){
-                                        // 2-streak
+                                        // Count 2-streak occurences.
                                         if(counter == 2)
                                             streaks.set(4, streaks.get(4) + 1);
-                                        // 3-streak
+                                        // Count 3-streak occurences.
                                         else
                                             streaks.set(0, streaks.get(0) + 1);
                                     }
-                                    // opponent
+
+                                    // For the opposing player.
                                     else{
-                                        // 2-streak
+                                        // Count 2-streak occurences.
                                         if(counter == 2)
                                             streaks.set(5, streaks.get(5) + 1);
-                                        // 3-streak
+                                        // Count 3-streak occurences.
                                         else
                                             streaks.set(1, streaks.get(1) + 1);
                                     }
                                 }
-                                // 1-open
+
+                                // Count 1-open occurences.
                                 else if(tiles[location.x][location.y].getValue() == opMark || edge){
-                                    // player
+                                    // For the current player.
                                     if(!player){
-                                        // 2-streak
+                                        // Count 2-streak occurences.
                                         if(counter == 2)
                                             streaks.set(6, streaks.get(6) + 1);
-                                            // 3-streak
+                                        // Count 3-streak occurences.
                                         else
                                             streaks.set(2, streaks.get(2) + 1);
                                     }
-                                    // opponent
+
+                                    // For the opposing player.
                                     else{
-                                        // 2-streak
+                                        // Count 2-streak occurences.
                                         if(counter == 2)
                                             streaks.set(7, streaks.get(7) + 1);
-                                            // 3-streak
+                                        // Count 3-streak occurences.
                                         else
                                             streaks.set(3, streaks.get(3) + 1);
                                     }
@@ -191,6 +219,7 @@ public class UtilityValue {
                 }
             }
         }
+
         return streaks;
     }
 }
