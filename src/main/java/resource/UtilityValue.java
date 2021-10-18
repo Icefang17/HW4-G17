@@ -37,9 +37,7 @@ public class UtilityValue {
                 + [num 1-open 2-streak for player]
                 - [num 1-open 2-streak for opponent];*/
 
-        // true = 2-open false = 1-open
         ArrayList<Integer> streaks = findStreaks(state, player, opponent);
-        // System.out.println(streaks);
         utilityValue =
                 100 * (streaks.get(0))
                 - 10 * (streaks.get(1))
@@ -52,10 +50,7 @@ public class UtilityValue {
 
                 + (streaks.get(6))
                 - (streaks.get(7));
-            
-        /*for(int i = 0; i <= 7; i++)
-            if(streaks.get(i) != 0)    
-                System.out.println(i + " = " + streaks.get(i));*/
+
 
         return utilityValue;
     }
