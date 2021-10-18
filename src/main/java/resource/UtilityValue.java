@@ -39,7 +39,7 @@ public class UtilityValue {
 
         // true = 2-open false = 1-open
         ArrayList<Integer> streaks = findStreaks(state, player);
-        //System.out.println("Player " + player.getPlayerId() + " is evaluating their options.");
+        // System.out.println(streaks);
         utilityValue =
                 100 * (streaks.get(0))
                 - 10 * (streaks.get(1))
@@ -59,62 +59,6 @@ public class UtilityValue {
 
         return utilityValue;
     }
-
-    /*private static int findStreaks(State state, Player player, int streak, boolean open){
-        ArrayList<ArrayList<Tile>> tiles = state.getTiles();
-        Point coordinates;
-        ArrayList<Point> found = new ArrayList<>();
-
-        for(int x = 0; x < tiles.size(); x++){
-            for(int y = 0; y < tiles.get(x).size(); y++){
-                if(tiles.get(x).get(y).getValue() == Mark.BLANK){
-                    for(int i = 0; i < 8; i++){
-                        coordinates = checkAdjacentTiles(x, y, tiles.size(), tiles.get(x).size(), i);
-                        int counter = 0;
-                        int newX = coordinates.x;
-                        int newY = coordinates.y;
-                        do{
-                            counter++;
-
-                            // Break if at edge of board
-                            if(newX == coordinates.x && newY == coordinates.y)
-                                break;
-
-                            // Repeat the directional operation
-                            coordinates = checkAdjacentTiles(newX, newY, tiles.size(), tiles.get(x).size(), i);
-                            newX = coordinates.x;
-                            newY = coordinates.y;
-
-                            // Add streak to found if looking for closed streak
-                            if(counter == streak && tiles.get(newX).get(newY).getValue() == player.getMark()){
-                                coordinates = checkAdjacentTiles(newX, newY, tiles.size(), tiles.get(x).size(), i);
-                                Mark mark = tiles.get(coordinates.x).get(coordinates.y).getValue();
-                                // If looking for an open streak
-                                if(open){
-                                    // Make sure the streak is open and hasn't already been found
-                                    if(mark == Mark.BLANK && !found.contains(coordinates))
-                                        found.add(new Point(x, y));
-                                }
-                                else{
-                                    // Make sure the streak isn't bigger than the search value
-                                    if(mark != player.getMark() && mark != Mark.BLANK)
-                                        found.add(new Point(x, y));
-                                    // Check if streak ended on an edge
-                                    else if(coordinates.x == newX && coordinates.y == newY)
-                                        found.add(new Point(x, y));
-                                    break;
-                                }
-                            }
-                        }while(counter < streak && tiles.get(newX).get(newY).getValue() == player.getMark());
-                        *//*for(int q = 0; q < streak && tiles.get(newX).get(newY).getValue() == player.getMark(); q++) {
-
-                        }*//*
-                    }
-                }
-            }
-        }
-        return found.size();
-    }*/
 
     private static Point getDirectionVector(int x, int y, int xBound, int yBound, int instruction){
         switch(instruction){
@@ -170,6 +114,7 @@ public class UtilityValue {
                     Point location = new Point(x, y);
 
                     for(int i = 0; i < 8; i++){
+                        boolean edge = false;
                         location.setLocation(x, y);
                         translation = getDirectionVector(location.x, location.y, xBound, yBound, i);
 
@@ -186,8 +131,10 @@ public class UtilityValue {
                                 while (tiles[location.x][location.y].getValue() == playerMark) {
                                     counter++;
 
-                                    if(getDirectionVector(location.x, location.y, xBound, yBound, i) == null)
+                                    if(getDirectionVector(location.x, location.y, xBound, yBound, i) == null) {
+                                        edge = true;
                                         break;
+                                    }
 
                                     location.translate(translation.x, translation.y);
                                 }
@@ -198,8 +145,10 @@ public class UtilityValue {
                                 while (tiles[location.x][location.y].getValue() != playerMark &&
                                             tiles[location.x][location.y].getValue() != Mark.BLANK) {
                                     counter++;
-                                    if (getDirectionVector(location.x, location.y, xBound, yBound, i) == null)
+                                    if(getDirectionVector(location.x, location.y, xBound, yBound, i) == null) {
+                                        edge = true;
                                         break;
+                                    }
                                     location.translate(translation.x, translation.y);
                                 }
                             }
@@ -226,9 +175,9 @@ public class UtilityValue {
                                     }
                                 }
                                 // 1-open
-                                else{
+                                else if(tiles[location.x][location.y].getValue() != playerMark || edge){
                                     // player
-                                    if(player){
+                                    if(!player){
                                         // 2-streak
                                         if(counter == 2)
                                             streaks.set(6, streaks.get(6) + 1);
@@ -254,5 +203,4 @@ public class UtilityValue {
         }
         return streaks;
     }
-
 }
