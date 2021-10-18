@@ -8,8 +8,8 @@ import java.awt.Point;
 
 public class Initialize {
 
-    private static final int xBound = 5;
-    private static final int yBound = 6;
+    private static final int xBound = 4;
+    private static final int yBound = 4;
 
     public static void main(String argc[]){
 
@@ -22,7 +22,8 @@ public class Initialize {
         while(true) {
 
 
-
+            if(Game.terminalTest(game.getGameState()))
+                break;
             currentPlayer = game.getCurrentPlayer();
             System.out.println("\nTurn: " + count + " (Player " + currentPlayer.getPlayerId() + ")");
             Point action = MiniMax.minimaxDecision(game, game.getGameState(), currentPlayer.getPlayerId() * 2);
@@ -30,8 +31,7 @@ public class Initialize {
             game.getGameState().setTileToPlayer(action.x, action.y);
             System.out.println("Move: " + currentPlayer.getMark() + " -> (" + (action.x + 1) + ", " + (action.y + 1)  + ")");
             game.getGameState().printState();
-            if(Game.terminalTest(game.getGameState()))
-                break;
+
             game.endTurn();
         }
         long totalSeconds = (System.nanoTime() - startTime) / 1000000000;

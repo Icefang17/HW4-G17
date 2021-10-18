@@ -35,6 +35,7 @@ public class State {
                 this.tiles[i][j] = new Tile(parentState.getTiles()[i][j].getValue());
 
         this.player = game.getPlayers().get(game.getNextPlayer(parentState.getPlayer()));
+        this.tiles[action.x][action.y].setValue(player.getMark());
     }
 
     public Player getPlayer(){return player;}
