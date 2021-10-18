@@ -10,6 +10,7 @@ import java.util.Random;
 import java.awt.Point;
 
 public class MiniMax {
+    static int count = 0;
     static int value = 0;
     static Point finalAction;
     static int utilityValue;
@@ -21,42 +22,25 @@ public class MiniMax {
             int hold = value;
             value = Math.max(value, minValue(game, state, depth));
 
-            if(value != 0)
-                System.out.println(value);
-
             if(value > hold) {
                 finalAction = action;
                 equalMoves.clear();
                 equalMoves.add(finalAction);
             }
 
-            else if(value - hold == 0) {
+            else if(value - hold == 0)
                 equalMoves.add(action);
-                /*Random random = new Random();
-                int rand = random.nextInt(2);
 
-                switch(rand) {
-                    case 0:
-                        finalAction = action;
-                        break;
-                    case 1:
-                        break;
-                }*/
-            }
+            count++;
         });
+
         Random random = new Random();
         int randPoint = random.nextInt(equalMoves.size());
+
         Point randomAction = new Point(equalMoves.get(randPoint));
         finalAction = randomAction;
 
-        /*if(game.getGameState().getTurn() == 0){
-            Random random = new Random();
-            int randX = random.nextInt(state.getTiles().length);
-            int randY = random.nextInt(state.getTiles()[randX].length);
-
-            Point randomAction = new Point(randX, randY);
-            finalAction = randomAction;
-        }*/
+        System.out.println("Nodes Generated: " + count);
         return finalAction;
     }
 
@@ -68,11 +52,9 @@ public class MiniMax {
 
         for(Point action : Game.actions(state)) {
             utilityValue = Math.min(utilityValue, maxValue(game, state.result(game, action), depth - 1));
+            count++;
         }
 
-        // Game.actions(state).forEach((action) -> {
-        //     utilityValue = Math.min(utilityValue, maxValue(game, state.result(game, action), depth - 1));
-        // });
         return utilityValue;
     }
 
@@ -84,11 +66,9 @@ public class MiniMax {
 
         for(Point action : Game.actions(state)) {
             utilityValue = Math.max(utilityValue, minValue(game, state.result(game, action), depth - 1));
+            count++;
         }
         
-        // Game.actions(state).forEach((action) -> {
-        //     utilityValue = Math.max(utilityValue, minValue(game, state.result(game, action), depth - 1));
-        // });
         return utilityValue;
     }
 }

@@ -1,6 +1,5 @@
 package resource;
 
-import game.Game;
 import game.Player;
 import map.State;
 import map.Tile;
@@ -22,24 +21,20 @@ public class UtilityValue {
     private static int calculateUtilityValue(State state, Player player, Player opponent) {
         int utilityValue = 0;
 
-        // Calculate open sides for players and then:
+        // Heuristics defined as:
+        /*100 * [num of 2-open 3-streak for player]
+        - 10 * [num of 2-open 3-streak for opponent]
 
-       /* utilityValue =
-                100 * [num of 2-open 3-streak for player]
-                - 10 * [num of 2-open 3-streak for opponent]
+        + 100 * [num of 1-open 3-streak for player]
+        - 5 * [num of 1-open 3-streak for opponent]
 
-                + 100 * [num of 1-open 3-streak for player]
-                - 5 * [num of 1-open 3-streak for opponent]
+        + 2 * [num 2-open 2-streak for player]
+        - 2 * [num 2-open 2-streak for opponent]
 
-                + 2 * [num 2-open 2-streak for player]
-                - 2 * [num 2-open 2-streak for opponent]
+        + [num 1-open 2-streak for player]
+        - [num 1-open 2-streak for opponent]*/
 
-                + [num 1-open 2-streak for player]
-                - [num 1-open 2-streak for opponent];*/
-
-        // true = 2-open false = 1-open
         ArrayList<Integer> streaks = findStreaks(state, player, opponent);
-        // System.out.println(streaks);
         utilityValue =
                 100 * (streaks.get(0))
                 - 10 * (streaks.get(1))
@@ -52,10 +47,6 @@ public class UtilityValue {
 
                 + (streaks.get(6))
                 - (streaks.get(7));
-            
-        /*for(int i = 0; i <= 7; i++)
-            if(streaks.get(i) != 0)    
-                System.out.println(i + " = " + streaks.get(i));*/
 
         return utilityValue;
     }

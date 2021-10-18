@@ -19,7 +19,7 @@ public class Initialize {
         Game game = Game.newXOGame(initialState, 2);
         int count = 0;
         long startTime = System.nanoTime();
-        do{
+        while(!Game.terminalTest(game.getGameState())) { 
             currentPlayer = game.getCurrentPlayer();
             Point action = MiniMax.minimaxDecision(game, game.getGameState(), currentPlayer.getPlayerId() * 2);
 
@@ -31,7 +31,7 @@ public class Initialize {
             game.getGameState().printState();
             UtilityValue.utility(game.getGameState(), game.getPlayers());
             game.endTurn();
-        }while(!Game.terminalTest(game.getGameState()));
+        }
         long endTime = System.nanoTime();
         System.out.println("Game ended with time: " + (((endTime - startTime) / 1000000000) / 60) + ":" + (((endTime - startTime) / 1000000000) % 60));
         System.out.println("Player " + game.getCurrentPlayer().getPlayerId() + " won the game!");

@@ -10,11 +10,9 @@ public class Game {
     private State gameState;
     private ArrayList<Player> players;
     private Player currentPlayer;
-    private int turn;
 
     private Game(State initialState){
         this.gameState = initialState;
-        this.turn = initialState.getTurn();
         this.players = new ArrayList<>();
         players.add(0, new Player(1, Mark.X));
         players.add(1, new Player(2, Mark.O));
